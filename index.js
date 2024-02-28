@@ -29,7 +29,8 @@ function isPath(matrix, color, rowInicial, colInicial, rowFinal, colFinal) {
   const m= matrix[0].length;
   
   let visited= Array(n).fill().map(() => Array(m).fill(false));
-
+  
+  // flag to indicate whether the path exists or not 
   let flag=false; 
   
   for(let i=0;i<n;i++) { 
@@ -47,41 +48,57 @@ function isPath(matrix, color, rowInicial, colInicial, rowFinal, colFinal) {
   return flag;
 } 
 
+// method for checking boundries 
 function isSafe(i, j, matrix) { 	
   if(i>=0 && i<matrix.length && j>=0 && j < matrix[0].length) return true; 
   return false; 
 } 
 
+// Returns true if there is a path from a source (a 
+// cell with value 1) to a destination (a cell with 
+// value 2) 
 function isPathUtil(matrix,  i, j,visited, rowInicial, colInicial,  rowFinal, colFinal){ 
   
+  // checking the boundries, walls and 
+  // whether the cell is unvisited 
   if(isSafe(i, j, matrix) && 
      (matrix[i][j]==0 || (i==rowInicial && j== colInicial) || (i==rowFinal && j==colFinal))  && !visited[i][j]){ 
-	  
+    // make the cell visited 
     visited[i][j]=true; 
     
+    // if the cell is the required 
+    // destination then return true 
     if(i==rowFinal && j==colFinal) return true; 
     
+    // traverse up 
     let up = isPathUtil(matrix, i-1, j, visited, rowInicial, colInicial, rowFinal, colFinal); 
     
+    // if path is found in up direction return true 
     if(up) 
       return true; 
     
+    // traverse left 
     let left = isPathUtil(matrix, i, j-1, visited, rowInicial, colInicial, rowFinal, colFinal); 
     
+    // if path is found in left direction return true 
     if(left) 
       return true; 
-
+    
+    //traverse down 
     let down = isPathUtil(matrix, i+1, j, visited, rowInicial, colInicial, rowFinal, colFinal); 
     
+    // if path is found in down direction return true 
     if(down) 
       return true; 
-
+    
+    // traverse right 
     let right = isPathUtil(matrix, i, j+1, visited, rowInicial, colInicial, rowFinal, colFinal); 
     
+    // if path is found in right direction return true 
     if(right) 
       return true; 
   } 
-  return false;
+  return false; // no path has been found 
 } 
 const CASILLA_LIBRE = 0;
 const hizoVueltaEnUenEspacioVacio = (matrix, params, colorActual, x, y) => {
@@ -119,26 +136,31 @@ const hizoVueltaEnUenEspacioVacio = (matrix, params, colorActual, x, y) => {
 const cincoColoresIgualesAlrededor=(matrix, params, colorActual, x, y) =>{
   let contador = 0;
 
+  // centro izq
   if (noSaleDelBorde(x, y - 1, matrix)) {
     if (matrix[x][y - 1] === colorActual) {
       contador++;
     }
   }
 
+  //arriba izq
   if (noSaleDelBorde(x - 1, y - 1, matrix)) {
     if (matrix[x - 1][y - 1] === colorActual) contador++;
   }
 
+  //arriba centro
   if (noSaleDelBorde(x - 1, y, matrix)) {
     if (matrix[x - 1][y] === colorActual) {
       contador++;
     }
   }
 
+  //arriba derecha
   if (noSaleDelBorde(x - 1, y + 1, matrix)) {
     if (matrix[x - 1][y + 1] === colorActual) contador++;
   }
 
+  //centro der
   if (noSaleDelBorde(x, y + 1, matrix)) {
     if (matrix[x][y + 1] === colorActual) {
       contador++;
@@ -149,26 +171,31 @@ const cincoColoresIgualesAlrededor=(matrix, params, colorActual, x, y) =>{
 
   contador = 0;
 
+  //arriba centro
   if (noSaleDelBorde(x - 1, y, matrix)) {
     if (matrix[x - 1][y] === colorActual) {
       contador++;
     }
   }
 
+  //arriba derecha
   if (noSaleDelBorde(x - 1, y + 1, matrix)) {
     if (matrix[x - 1][y + 1] === colorActual) contador++;
   }
 
+  //centro der
   if (noSaleDelBorde(x, y + 1, matrix)) {
     if (matrix[x][y + 1] === colorActual) {
       contador++;
     }
   }
 
+  //abajo derecha
   if (noSaleDelBorde(x + 1, y + 1, matrix)) {
     if (matrix[x + 1][y + 1] === colorActual) contador++;
   }
 
+  //abajo centro
   if (noSaleDelBorde(x + 1, y, matrix)) {
     if (matrix[x + 1][y] === colorActual) {
       contador++;
@@ -179,26 +206,31 @@ const cincoColoresIgualesAlrededor=(matrix, params, colorActual, x, y) =>{
 
   contador = 0;
 
+  //centro der
   if (noSaleDelBorde(x, y + 1, matrix)) {
     if (matrix[x][y + 1] === colorActual) {
       contador++;
     }
   }
 
+  //abajo derecha
   if (noSaleDelBorde(x + 1, y + 1, matrix)) {
     if (matrix[x + 1][y + 1] === colorActual) contador++;
   }
 
+  //abajo centro
   if (noSaleDelBorde(x + 1, y, matrix)) {
     if (matrix[x + 1][y] === colorActual) {
       contador++;
     }
   }
 
+  //abajo izq
   if (noSaleDelBorde(x + 1, y - 1, matrix)) {
     if (matrix[x + 1][y - 1] === colorActual) contador++;
   }
 
+  // centro izq
   if (noSaleDelBorde(x, y - 1, matrix)) {
     if (matrix[x][y - 1] === colorActual) {
       contador++;
@@ -209,26 +241,31 @@ const cincoColoresIgualesAlrededor=(matrix, params, colorActual, x, y) =>{
 
   contador = 0;
 
+  //abajo centro
   if (noSaleDelBorde(x + 1, y, matrix)) {
     if (matrix[x + 1][y] === colorActual) {
       contador++;
     }
   }
 
+  //abajo izq
   if (noSaleDelBorde(x + 1, y - 1, matrix)) {
     if (matrix[x + 1][y - 1] === colorActual) contador++;
   }
 
+  // centro izq
   if (noSaleDelBorde(x, y - 1, matrix)) {
     if (matrix[x][y - 1] === colorActual) {
       contador++;
     }
   }
 
+  //arriba izq
   if (noSaleDelBorde(x - 1, y - 1, matrix)) {
     if (matrix[x - 1][y - 1] === colorActual) contador++;
   }
 
+  //arriba centro
   if (noSaleDelBorde(x - 1, y, matrix)) {
     if (matrix[x - 1][y] === colorActual) {
       contador++;
@@ -375,6 +412,8 @@ function esFinaldeRuta(x, y, xFinal, yFinal) {
 
 // ////////////////////////////////////////////////////////////////////////////////////////
 
+// La función retorna true si el movimiento tomado es válido, sino retorna
+// false.
 function isSafe2(row, col, m, visited, nColor) {
   if (row == -1 || row == m.length || col == -1 || col == m[0].length || visited[row][col]
       || (m[row][col] != CASILLA_LIBRE && m[row][col] != nColor)) {
@@ -383,6 +422,7 @@ function isSafe2(row, col, m, visited, nColor) {
   return true;
 }
 
+// Función que recorre todas las posibles rutas.
 function printPathUtil(row,  col, m, visited, arrayPath, resultados, nColor, rowFinal, colFinal, params) {
   
   if (row == -1 || row == m.length || col == -1 || col == m[0].length || visited[row][col]
@@ -390,6 +430,7 @@ function printPathUtil(row,  col, m, visited, arrayPath, resultados, nColor, row
     return;
   }
   
+  // Si todas las células están completas guardamos la matriz y retornamos.
   if (row == rowFinal && col == colFinal) {
     
     if (hayCerosEnMatrix(arrayPath)) {
@@ -424,8 +465,13 @@ function printPathUtil(row,  col, m, visited, arrayPath, resultados, nColor, row
     }
   }
   
+  // Marca la célula como visitada.
   visited[row][col] = true;
-
+  
+  // Intenta todas las direcciones (down, left,
+  // up, right) en el orden dado para obtener las rutas correctas.
+  
+  // Verifica si mover abajo es válido.
   if (isSafe2(row + 1, col, m, visited, nColor)) {
     
     arrayPath[row + 1][col] = nColor;
@@ -439,6 +485,7 @@ function printPathUtil(row,  col, m, visited, arrayPath, resultados, nColor, row
     if(row+1!=rowFinal || col!=colFinal) arrayPath[row + 1][col] = CASILLA_LIBRE;
   }
   
+  // Verifica si mover a la izquierda es válido.
   if (isSafe2(row, col - 1, m, visited, nColor)) {
     arrayPath[row][col - 1] = nColor;
     if (rutaValida(nColor, arrayPath, visited, row, col - 1, rowFinal, colFinal)
@@ -452,6 +499,7 @@ function printPathUtil(row,  col, m, visited, arrayPath, resultados, nColor, row
     if(row!=rowFinal || col-1!=colFinal) arrayPath[row][col - 1] = CASILLA_LIBRE;
   }
   
+  // Verifica si mover arriba es válido.
   if (isSafe2(row - 1, col, m, visited, nColor)) {
     arrayPath[row - 1][col] = nColor;
     if (rutaValida(nColor, arrayPath, visited, row - 1, col, rowFinal, colFinal)
@@ -465,6 +513,7 @@ function printPathUtil(row,  col, m, visited, arrayPath, resultados, nColor, row
     if(row-1!=rowFinal || col!=colFinal) arrayPath[row - 1][col] = CASILLA_LIBRE;
   }
   
+  // Verifica si mover a la derecha es válido.
   if (isSafe2(row, col + 1, m, visited, nColor)) {
     arrayPath[row][col + 1] = nColor;
     if (rutaValida(nColor, arrayPath, visited, row, col + 1, rowFinal, colFinal)
@@ -478,9 +527,11 @@ function printPathUtil(row,  col, m, visited, arrayPath, resultados, nColor, row
     if(row!=rowFinal || col+1!=colFinal) arrayPath[row][col + 1] = CASILLA_LIBRE;
   }
   
+  // Marca la célula como NO visitada para otras posibles rutas.
   visited[row][col] = false;
 }
 
+// Función para almacenar y retornar la posible solución
 function printPath(m) {
   
   // Validar parámetros...
@@ -498,8 +549,9 @@ function printPath(m) {
   
   const unique = elementosUnicos(m);
   if(unique.length<MIN_COLORS) return 'Very few items'
-
-	
+  
+  
+  // Setear valores
   const params = getParams(m, unique);
   let resultados = [];
   let visited = Array(m.length).fill().map(() => Array(m[0].length).fill(false));
@@ -511,6 +563,7 @@ function printPath(m) {
     }
   }
   
+  // Llama la función utilitaria para encontrar las rutas válidas.
   printPathUtil(params[0][1], params[0][2], m, visited, arrayPath, resultados,
                 params[0][0], params[0][3], params[0][4], params);
   
